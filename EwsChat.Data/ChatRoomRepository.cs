@@ -1,13 +1,29 @@
 ﻿using EwsChat.Data.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EwsChat.Data
 {
-    public class ChatRoomRepository
+    public class ChatRoomRepository : IChatRoomRepository
     {
-        private readonly HashSet<ChatRoom> ChatRooms;
+        private HashSet<ChatRoom> ChatRooms;
 
         public ChatRoomRepository()
+        {
+            InitializeChatRooms();
+        }
+
+        public ChatRoom GetChatRoomById(int id)
+        {
+            return ChatRooms.FirstOrDefault(cr => cr.Id == id);
+        }
+
+        public HashSet<ChatRoom> GetChatRooms()
+        {
+            return ChatRooms;
+        }
+
+        private void InitializeChatRooms()
         {
             ChatRooms = new HashSet<ChatRoom>
             {
@@ -34,6 +50,5 @@ namespace EwsChat.Data
                 }
             };
         }
-
     }
 }

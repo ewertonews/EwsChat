@@ -3,3 +3,9 @@
 ################################################################################
 
 /.vs
+/EwsChat.Core/bin/Debug/netstandard2.0
+/EwsChat.Data/bin/Debug/netstandard2.0
+/EwsChat.Data/obj
+/EwsChat.Core/obj
+/EwsChat.Data.Tests/bin/Debug/netcoreapp3.1
+/EwsChat.Data.Tests/obj
