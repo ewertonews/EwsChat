@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace EwsChat.Data
+namespace EwsChat.Data.Exceptions
 {
     [Serializable]
     public class InvalidMessageException : Exception

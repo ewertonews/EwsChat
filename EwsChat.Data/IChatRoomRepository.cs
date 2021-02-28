@@ -1,11 +1,12 @@
 ﻿using EwsChat.Data.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EwsChat.Data
 {
     public interface IChatRoomRepository
     {
-        HashSet<ChatRoom> GetChatRooms();
-        ChatRoom GetChatRoomById(int id);
+        Task<HashSet<ChatRoom>> GetChatRoomsAsync();
+        Task<ChatRoom> GetChatRoomByIdAsync(int id);
     }
 }

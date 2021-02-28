@@ -1,4 +1,5 @@
-﻿using EwsChat.Data.Models;
+﻿using EwsChat.Data.Exceptions;
+using EwsChat.Data.Models;
 using NUnit.Framework;
 using System;
 using System.Linq;
@@ -29,9 +30,9 @@ namespace EwsChat.Data.Tests
                 CreatedAt = DateTime.UtcNow
             };
 
-            _messageRepository.AddMessage(message);
+            _messageRepository.AddMessageAsync(message);
 
-            var messagesFromRoom = _messageRepository.GetAllMessagesFromRoom(1001);
+            var messagesFromRoom = _messageRepository.GetAllMessagesFromRoomAsync(1001).Result;
 
             Assert.That(messagesFromRoom.Contains(message));
         }
@@ -46,19 +47,19 @@ namespace EwsChat.Data.Tests
                 CreatedAt = DateTime.UtcNow
             };
 
-            _messageRepository.AddMessage(message);
+            _messageRepository.AddMessageAsync(message);
 
-            var messageFromRoom = _messageRepository.GetAllMessagesFromRoom(1001).FirstOrDefault() ;
+            var messageFromRoom = _messageRepository.GetAllMessagesFromRoomAsync(1001).Result;
 
             Assert.That(messageFromRoom, Is.Not.Null);
-            Assert.That(messageFromRoom.MessageId, Is.Not.Null);
+            Assert.That(messageFromRoom.FirstOrDefault().MessageId, Is.Not.Null);
         }
 
         [Test]
         public void AddMessageShouldThrowNullArgumentExceptoin()
         {
             Message message = null;
-            Assert.That(() => _messageRepository.AddMessage(message), Throws.ArgumentNullException);
+            Assert.That(() => _messageRepository.AddMessageAsync(message), Throws.ArgumentNullException);
         }
 
 
@@ -74,7 +75,7 @@ namespace EwsChat.Data.Tests
                 Texto = emptyMessage
             };
 
-            Assert.That(() => _messageRepository.AddMessage(message), Throws.TypeOf<InvalidMessageException>());
+            Assert.That(() => _messageRepository.AddMessageAsync(message), Throws.TypeOf<InvalidMessageException>());
         }
         [Test]
         public void AddMessageShouldThrowRoomNotFoundException()
@@ -87,7 +88,7 @@ namespace EwsChat.Data.Tests
                 Texto = "'sup guys!"
             };
 
-            Assert.That(() => _messageRepository.AddMessage(message), Throws.TypeOf<RoomNotFoundException>());
+            Assert.That(() => _messageRepository.AddMessageAsync(message), Throws.TypeOf<RoomNotFoundException>());
         }
 
         [Test]
@@ -95,7 +96,7 @@ namespace EwsChat.Data.Tests
         {
             AddMessagesToRoom(1001);
 
-            var allMessages = _messageRepository.GetAllMessages();
+            var allMessages = _messageRepository.GetAllMessagesAsync().Result;
 
             Assert.That(allMessages.Count, Is.EqualTo(3));
         }
@@ -109,7 +110,7 @@ namespace EwsChat.Data.Tests
             var heavyMetalRoomId = 1002;
             AddMessagesToRoom(heavyMetalRoomId);
 
-            var messagesFromHeavyMetalRoom = _messageRepository.GetAllMessagesFromRoom(heavyMetalRoomId);
+            var messagesFromHeavyMetalRoom = _messageRepository.GetAllMessagesFromRoomAsync(heavyMetalRoomId).Result;
 
             Assert.That(messagesFromHeavyMetalRoom.Any(m => m.TargetRoomId != heavyMetalRoomId), Is.False);
         }
@@ -119,7 +120,7 @@ namespace EwsChat.Data.Tests
         {
             var punkRockRoomId = 1001;
 
-            var messagesFromHeavyMetalRoom = _messageRepository.GetAllMessagesFromRoom(punkRockRoomId);
+            var messagesFromHeavyMetalRoom = _messageRepository.GetAllMessagesFromRoomAsync(punkRockRoomId).Result;
 
             Assert.That(messagesFromHeavyMetalRoom, Is.Empty);
         }
@@ -129,7 +130,7 @@ namespace EwsChat.Data.Tests
         {
             var unknownRoomId = 8888;
 
-            var messages = _messageRepository.GetAllMessagesFromRoom(unknownRoomId);
+            var messages = _messageRepository.GetAllMessagesFromRoomAsync(unknownRoomId).Result;
 
             Assert.That(messages, Is.Empty);
         }
@@ -142,7 +143,7 @@ namespace EwsChat.Data.Tests
 
             AddMessagesToRoom(roomId);
 
-            var messagesFromDate = _messageRepository.GetLatestMessagesFromRoom(roomId, lastUpdate);
+            var messagesFromDate = _messageRepository.GetLatestMessagesFromRoomAsync(roomId, lastUpdate).Result;
 
             Assert.That(messagesFromDate.Count, Is.EqualTo(2));
         }
@@ -155,7 +156,7 @@ namespace EwsChat.Data.Tests
 
             AddMessagesToRoom(roomId);
 
-            var messagesFromDate = _messageRepository.GetLatestMessagesFromRoom(roomId, lastUpdate);
+            var messagesFromDate = _messageRepository.GetLatestMessagesFromRoomAsync(roomId, lastUpdate).Result;
 
             Assert.That(messagesFromDate, Is.Empty);
         }
@@ -181,9 +182,9 @@ namespace EwsChat.Data.Tests
                 Texto = "What are you guys up to?"
             };
 
-            _messageRepository.AddMessage(message1);
-            _messageRepository.AddMessage(message2);
-            _messageRepository.AddMessage(message3);
+            _messageRepository.AddMessageAsync(message1);
+            _messageRepository.AddMessageAsync(message2);
+            _messageRepository.AddMessageAsync(message3);
         }
     }
 }

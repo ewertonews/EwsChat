@@ -1,6 +1,7 @@
 ﻿using EwsChat.Data.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EwsChat.Data
 {
@@ -13,14 +14,20 @@ namespace EwsChat.Data
             InitializeChatRooms();
         }
 
-        public ChatRoom GetChatRoomById(int id)
+        public async Task<ChatRoom> GetChatRoomByIdAsync(int id)
         {
-            return _chatRooms.FirstOrDefault(cr => cr.Id == id);
+            return await Task.Run(() =>
+            {
+                return _chatRooms.FirstOrDefault(cr => cr.Id == id);
+            });
         }
 
-        public HashSet<ChatRoom> GetChatRooms()
+        public async Task<HashSet<ChatRoom>> GetChatRoomsAsync()
         {
-            return _chatRooms;
+            return await Task.Run(() =>
+            {
+                return _chatRooms;
+            });
         }
 
         private void InitializeChatRooms()

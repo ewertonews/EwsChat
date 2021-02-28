@@ -1,13 +1,15 @@
-﻿using EwsChat.Data.Models;
+﻿using EwsChat.Data.Exceptions;
+using EwsChat.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EwsChat.Data
 {
     public class MessageRepository : IMessageRepository
     {
-        private HashSet<Message> _messages;
+        private readonly HashSet<Message> _messages;
         private readonly IChatRoomRepository _chatRoomRepository;
 
         public MessageRepository(IChatRoomRepository chatRoomRepository)
@@ -16,30 +18,32 @@ namespace EwsChat.Data
             _chatRoomRepository = chatRoomRepository;
         }
 
-        public IEnumerable<Message> GetAllMessages()
+        public async Task<IEnumerable<Message>> GetAllMessagesAsync()
         {
-            return _messages.OrderBy(m => m.CreatedAt);
+            return await Task.Run(() =>
+            {
+                return _messages.OrderBy(m => m.CreatedAt);
+            });
         }
 
-        public IEnumerable<Message> GetAllMessagesFromRoom(int roomId)
+        public async Task<IEnumerable<Message>> GetAllMessagesFromRoomAsync(int roomId)
         {
-            return _messages.Where(m => m.TargetRoomId == roomId).OrderBy(m => m.CreatedAt);
+            return await Task.Run(() =>
+            {
+                return _messages.Where(m => m?.TargetRoomId == roomId).OrderBy(m => m.CreatedAt);
+            });
         }
 
-        public IEnumerable<Message> GetLatestMessagesFromRoom(int roomId, DateTime lastUpdate)
+        public async Task<IEnumerable<Message>> GetLatestMessagesFromRoomAsync(int roomId, DateTime lastUpdate)
         {
-            return GetAllMessagesFromRoom(roomId).Where(r => r.CreatedAt >= lastUpdate);
-            //var messagesFromRoom = GetAllMessagesFromRoom(roomId);
-            //if (messagesFromRoom.Count() > 0)
-            //{
-            //    return GetAllMessagesFromRoom(roomId).Where(r => r.CreatedAt >= lastUpdate);
-            //}
-            //return messagesFromRoom;
+
+            var allMessagesFromRoom = await GetAllMessagesFromRoomAsync(roomId);
+            return allMessagesFromRoom.Where(r => r.CreatedAt >= lastUpdate);
         }
 
-        public void AddMessage(Message message)
+        public async Task AddMessageAsync(Message message)
         {
-            ValidateMessage(message);
+            await ValidateMessage(message);
             if (message.MessageId == null)
             {
                 message.MessageId = Guid.NewGuid().ToString();
@@ -47,14 +51,14 @@ namespace EwsChat.Data
             _messages.Add(message);
         }
 
-        private void ValidateMessage(Message message)
+        private async Task ValidateMessage(Message message)
         {
             if (message == null || message.TargetRoomId == 0)
             {
                 throw new ArgumentNullException("The message is null or there is not target room id");
             }
 
-            var targetRoom = _chatRoomRepository.GetChatRoomById(message.TargetRoomId);
+            var targetRoom = await _chatRoomRepository.GetChatRoomByIdAsync(message.TargetRoomId);
             if (targetRoom == null)
             {
                 throw new RoomNotFoundException("There is no chat room with the given TargetRoomId.");

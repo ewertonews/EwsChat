@@ -16,7 +16,7 @@ namespace EwsChat.Data.Tests
         [Test]
         public void GetChatRoomsShouldReturnAllRooms()
         {
-            var result = ChatRoomRepository.GetChatRooms();
+            var result = ChatRoomRepository.GetChatRoomsAsync().Result;
 
             Assert.That(result, Is.Not.Empty);
         }
@@ -26,7 +26,7 @@ namespace EwsChat.Data.Tests
         {
             int roomId = 1001;
 
-            ChatRoom returnedChatRoom = ChatRoomRepository.GetChatRoomById(roomId);
+            ChatRoom returnedChatRoom = ChatRoomRepository.GetChatRoomByIdAsync(roomId).Result;
 
             Assert.That(returnedChatRoom.Id, Is.EqualTo(roomId));
         }
@@ -36,7 +36,7 @@ namespace EwsChat.Data.Tests
         {
             int roomId = 1201;
 
-            ChatRoom returnedChatRoom = ChatRoomRepository.GetChatRoomById(roomId);
+            ChatRoom returnedChatRoom = ChatRoomRepository.GetChatRoomByIdAsync(roomId).Result;
 
             Assert.That(returnedChatRoom, Is.Null);
         }

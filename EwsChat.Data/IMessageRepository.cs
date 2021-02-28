@@ -1,14 +1,15 @@
 ﻿using EwsChat.Data.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace EwsChat.Data
 {
     public interface IMessageRepository
     {
-        void AddMessage(Message message);
-        IEnumerable<Message> GetAllMessages();
-        IEnumerable<Message> GetAllMessagesFromRoom(int roomId);
-        IEnumerable<Message> GetLatestMessagesFromRoom(int roomId, DateTime lastUpdate);
+        Task AddMessageAsync(Message message);
+        Task<IEnumerable<Message>> GetAllMessagesAsync();
+        Task<IEnumerable<Message>> GetAllMessagesFromRoomAsync(int roomId);
+        Task<IEnumerable<Message>> GetLatestMessagesFromRoomAsync(int roomId, DateTime lastUpdate);
     }
 }
