@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EwsChat.UnitTests", "EwsCha
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EwsChat.Src", "EwsChat.Src", "{358B6B4B-654D-4F69-9213-D19457A304E4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EwsChat.Core.UnitTests", "EwsChat.Core.UnitTests\EwsChat.Core.UnitTests.csproj", "{CCEB19D2-379C-4F76-A64A-2A6D659AB014}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{ABAAA4EF-0A65-4F40-8DB4-69619BDC549E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABAAA4EF-0A65-4F40-8DB4-69619BDC549E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABAAA4EF-0A65-4F40-8DB4-69619BDC549E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCEB19D2-379C-4F76-A64A-2A6D659AB014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCEB19D2-379C-4F76-A64A-2A6D659AB014}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCEB19D2-379C-4F76-A64A-2A6D659AB014}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCEB19D2-379C-4F76-A64A-2A6D659AB014}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{D1B4DDB4-C8A0-4FDE-8CEC-FED3B92C0F2A} = {358B6B4B-654D-4F69-9213-D19457A304E4}
 		{A84301C3-425A-4301-9EF2-443E61532AAE} = {D5B90828-7ABF-4163-9E35-0D10E5CED46E}
 		{ABAAA4EF-0A65-4F40-8DB4-69619BDC549E} = {358B6B4B-654D-4F69-9213-D19457A304E4}
+		{CCEB19D2-379C-4F76-A64A-2A6D659AB014} = {D5B90828-7ABF-4163-9E35-0D10E5CED46E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {417CC4D9-1BEB-4A67-B22F-290A87A004F3}

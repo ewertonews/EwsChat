@@ -9,3 +9,6 @@
 /EwsChat.Core/obj
 /EwsChat.Data.Tests/bin/Debug/netcoreapp3.1
 /EwsChat.Data.Tests/obj
+/EwsChat.Core.UnitTests/bin/Debug/netcoreapp3.1
+/EwsChat.Core.UnitTests/obj
+/TestResults/206f7d3e-42d6-49a7-b05f-c87112d2a6cf

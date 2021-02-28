@@ -1,15 +1,12 @@
 ﻿using EwsChat.Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace EwsChat.Data
+namespace EwsChat.Core
 {
-    public interface IChatMessagesRepository
+    public interface IChatMessagesHandler
     {
-        bool AddMessageToRoom(int roomId, string message);
+        void AddMessageToRoom(int roomId, Message message);
         HashSet<Message> GetAllMessagesFromRoom(int roomId);
         HashSet<Message> GetAllMessagesFromLastRequest(int roomId, DateTime lastRequest);
 

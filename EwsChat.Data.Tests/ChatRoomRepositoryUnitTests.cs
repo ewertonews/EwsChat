@@ -6,6 +6,7 @@ namespace EwsChat.Data.Tests
     public class ChatRoomRepositoryUnitTests
     {
         private IChatRoomRepository ChatRoomRepository;
+
         [SetUp]
         public void Setup()
         {
