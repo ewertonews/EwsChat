@@ -30,7 +30,7 @@ namespace EwsChat.Data
         {
             return await Task.Run(() =>
             {
-                return _messages.Where(m => m?.TargetRoomId == roomId).OrderBy(m => m.CreatedAt);
+                return _messages.Where(m => m.TargetRoomId == roomId).OrderBy(m => m.CreatedAt);
             });
         }
 

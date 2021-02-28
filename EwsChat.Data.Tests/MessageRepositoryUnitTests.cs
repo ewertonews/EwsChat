@@ -182,9 +182,9 @@ namespace EwsChat.Data.Tests
                 Texto = "What are you guys up to?"
             };
 
-            _messageRepository.AddMessageAsync(message1);
-            _messageRepository.AddMessageAsync(message2);
-            _messageRepository.AddMessageAsync(message3);
+            _messageRepository.AddMessageAsync(message1).Wait();
+            _messageRepository.AddMessageAsync(message2).Wait();
+            _messageRepository.AddMessageAsync(message3).Wait();
         }
     }
 }
