@@ -11,10 +11,14 @@ namespace EwsChat.Data
     {
         Task AddUserAsync(ChatUser user);
 
-        Task RemoveUserAsync(ChatUser user);
+        Task RemoveUserAsync(string userId);
 
         Task<IEnumerable<ChatUser>> GetAllUsersAsync();
 
-        Task<ChatUser> GetUserByIdAsync(string userId);        
+        Task<IEnumerable<ChatUser>> GetUsersOfRoomAsync(int roomId);
+
+        Task<ChatUser> GetUserByIdAsync(string userId);
+
+        Task<ChatUser> UpdateUserAsync(ChatUser updatedUser);
     }
 }

@@ -1,6 +1,6 @@
+using EwsChat.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,11 +21,20 @@ namespace EwsChat.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrderManager", Version = "v1" });
+            //});
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddSingleton<IChatUserRespository, ChatUserRespository>();
+            services.AddSingleton<IChatRoomRepository, ChatRoomRepository>();
+            services.AddSingleton<IMessageRepository, MessageRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

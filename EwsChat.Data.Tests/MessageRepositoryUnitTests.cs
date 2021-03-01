@@ -98,7 +98,7 @@ namespace EwsChat.Data.Tests
 
             var allMessages = _messageRepository.GetAllMessagesAsync().Result;
 
-            Assert.That(allMessages.Count, Is.EqualTo(3));
+            Assert.That(allMessages.Count, Is.EqualTo(4));
         }
 
         [Test]
@@ -126,13 +126,11 @@ namespace EwsChat.Data.Tests
         }
 
         [Test]
-        public void GetAllMessagesFromRoomShouldEmptyForNonExistentRoom()
+        public void GetAllMessagesFromRoomShouldThrowRoomNotFoundExceptionForNonExistentRoom()
         {
             var unknownRoomId = 8888;
 
-            var messages = _messageRepository.GetAllMessagesFromRoomAsync(unknownRoomId).Result;
-
-            Assert.That(messages, Is.Empty);
+            Assert.That(() => _messageRepository.GetAllMessagesFromRoomAsync(unknownRoomId), Throws.TypeOf<RoomNotFoundException>());
         }
 
         [Test]

@@ -30,6 +30,9 @@ namespace EwsChat.Data
             });
         }
 
+        //TODO: AddChatRoom
+        //TODO: DeleteChatRoom
+
         private void InitializeChatRooms()
         {
             _chatRooms = new HashSet<ChatRoom>

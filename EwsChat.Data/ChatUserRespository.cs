@@ -1,5 +1,6 @@
 ﻿using EwsChat.Data.Exceptions;
 using EwsChat.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,9 +25,22 @@ namespace EwsChat.Data
                 {
                     throw new UserAlreadyExistsException("There is already a user registered with the given NickName");
                 }
+                if (user.UserId == null)
+                {
+                    user.UserId = Guid.NewGuid().ToString();
+                }
                 chatUsers.Add(user);
             });            
         }
+
+
+        public async Task<IEnumerable<ChatUser>> GetUsersOfRoomAsync(int roomId)
+        {
+            return await Task.Run(() => {
+                return chatUsers.Where(u => u.ActiveRoomId == roomId);
+            });
+        }
+
 
         public async Task<IEnumerable<ChatUser>> GetAllUsersAsync()
         {
@@ -36,23 +50,39 @@ namespace EwsChat.Data
             });
         }
 
-        public Task<ChatUser> GetUserByIdAsync(string userId)
+        public async Task<ChatUser> GetUserByIdAsync(string userId)
         {
-            return Task.Run(() =>
+            var searchedUser = await Task.Run(() =>
             {
                 return chatUsers.FirstOrDefault(u => u.UserId == userId);
             });
-        }
 
-        public async Task RemoveUserAsync(ChatUser user)
-        {
-            var possibleNonExistentUser = await GetUserByIdAsync(user.UserId);
-
-            if (possibleNonExistentUser == null)
+            if(searchedUser == null)
             {
                 throw new NonExistentUserException("There is no user registered with given user id");
             }
-            chatUsers.Remove(user);
+
+            return searchedUser;
         }
+
+        public async Task<ChatUser> UpdateUserAsync(ChatUser updatedUser)
+        {
+            var userToRemove = await GetUserByIdAsync(updatedUser.UserId);
+            chatUsers.Remove(userToRemove);
+            chatUsers.Add(updatedUser);
+            return updatedUser;
+        }
+
+        public async Task RemoveUserAsync(string userId)
+        {
+            var userToRemove = await GetUserByIdAsync(userId);
+
+            if (userToRemove == null)
+            {
+                throw new NonExistentUserException("There is no user registered with given user id.");
+            }
+            chatUsers.Remove(userToRemove);
+        }
+        
     }
 }

@@ -37,12 +37,39 @@ namespace EwsChat.Data.Tests
             var user = new ChatUser()
             {
                 NickName = "TobiasMetal",
-                UserId = Guid.NewGuid().ToString()
+                UserId = Guid.NewGuid().ToString(),
+                ActiveRoomId = 1002
             };
 
             chatUserRespository.AddUserAsync(user).Wait();
 
             Assert.That(() => chatUserRespository.AddUserAsync(user), Throws.TypeOf<UserAlreadyExistsException>());
+        }
+
+        [Test]
+        public void GetUserByIdShouldReturnUserWithGivenId()
+        {
+            AddTwoUsers();
+            string idUser = Guid.NewGuid().ToString();
+            var heavyMeatUser = new ChatUser()
+            {
+                NickName = "HaavyMeat",
+                UserId = idUser,
+            };
+            chatUserRespository.AddUserAsync(heavyMeatUser).Wait();
+
+            var searchedUser = chatUserRespository.GetUserByIdAsync(idUser).Result;
+
+            Assert.That(searchedUser, Is.Not.Null);
+            Assert.That(searchedUser.UserId, Is.EqualTo(idUser));
+        }
+
+        [Test]
+        public void GetUserByIdShouldThrowNonExistentUserException()
+        {
+            string idUser = Guid.NewGuid().ToString();
+
+            Assert.That(() => chatUserRespository.GetUserByIdAsync(idUser), Throws.TypeOf<NonExistentUserException>());
         }
 
         [Test]
@@ -57,12 +84,51 @@ namespace EwsChat.Data.Tests
         }
 
         [Test]
+        public void GetUsersOfRoomShouldReturnAllUsertsOfAgivenRoom()
+        {
+            AddTwoUsers();
+            int punkRockRoomId = 1001;
+            var anotherUser = new ChatUser()
+            {
+                UserId = Guid.NewGuid().ToString(),
+                NickName = "emily182",
+                ActiveRoomId = punkRockRoomId
+            };
+            chatUserRespository.AddUserAsync(anotherUser).Wait();
+
+            var usersOfRoom = chatUserRespository.GetUsersOfRoomAsync(punkRockRoomId).Result;
+            
+            Assert.That(usersOfRoom, Is.Not.Empty);
+            Assert.That(usersOfRoom.Count(), Is.EqualTo(2));            
+        }
+
+        [Test]
+        public void UpdateUserShouldUpdateGivenUserSuccefully()
+        {
+            var userId = Guid.NewGuid().ToString();
+            int punkRockRoom = 1001;
+            var user = new ChatUser()
+            {
+                UserId = userId,
+                NickName = "emily182",
+                ActiveRoomId = 0
+            };
+            chatUserRespository.AddUserAsync(user).Wait();
+
+            user.ActiveRoomId = punkRockRoom;
+
+            var updatedUser = chatUserRespository.UpdateUserAsync(user).Result;
+
+            Assert.That(updatedUser.ActiveRoomId, Is.EqualTo(punkRockRoom));
+        }
+
+        [Test]
         public void RemoveUserShouldRemoveGivenUserSuccessfully()
         {
             ChatUser userToRemove = AddTwoUsersAndReturnAnExtraUser();
             chatUserRespository.AddUserAsync(userToRemove).Wait();
 
-            chatUserRespository.RemoveUserAsync(userToRemove).Wait();
+            chatUserRespository.RemoveUserAsync(userToRemove.UserId).Wait();
             var updatedRepository = chatUserRespository.GetAllUsersAsync().Result;
 
 
@@ -75,7 +141,7 @@ namespace EwsChat.Data.Tests
         {
             var userThatWasntAdded = AddTwoUsersAndReturnAnExtraUser();
 
-            Assert.That(() => chatUserRespository.RemoveUserAsync(userThatWasntAdded), Throws.TypeOf<NonExistentUserException>());
+            Assert.That(() => chatUserRespository.RemoveUserAsync(userThatWasntAdded.UserId), Throws.TypeOf<NonExistentUserException>());
         }
 
         private ChatUser AddTwoUsersAndReturnAnExtraUser()
@@ -94,21 +160,19 @@ namespace EwsChat.Data.Tests
             var user1 = new ChatUser()
             {
                 NickName = "TobiasMetal",
-                UserId = Guid.NewGuid().ToString()
+                UserId = Guid.NewGuid().ToString(),
+                ActiveRoomId = 1002
             };
 
             var user2 = new ChatUser()
             {
                 NickName = "PunkJack",
-                UserId = Guid.NewGuid().ToString()
+                UserId = Guid.NewGuid().ToString(),
+                ActiveRoomId = 1001
             };
 
             chatUserRespository.AddUserAsync(user1).Wait();
             chatUserRespository.AddUserAsync(user2).Wait();
         }
-
-
-        //Task<bool> RemoveUserAsync(ChatUser user);
-
     }
 }

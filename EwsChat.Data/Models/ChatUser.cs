@@ -8,6 +8,7 @@ namespace EwsChat.Data.Models
     {
         public string UserId { get; set; }
         public string NickName { get; set; }
+        public int ActiveRoomId { get; set; }
 
     }
 }
