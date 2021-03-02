@@ -1,0 +1,16 @@
+.chat{
+    border: solid 2px lightgray;
+    width: 80%;
+    height: 50vh;
+    max-height: 50vh  
+}
+
+.chat-message{
+    padding: 5px;
+    border: dotted 1px lightgray;
+}
+
+.mention{
+    font-weight: bold;
+    color: #0830a0;
+}

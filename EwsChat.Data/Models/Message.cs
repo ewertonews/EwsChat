@@ -6,8 +6,9 @@ namespace EwsChat.Data.Models
     {
         public string MessageId { get; set; }
         public int TargetRoomId { get; set; }
+        public string CreatedAtString { get; set; }
         public DateTime CreatedAt { get; set; }
-        public string Texto { get; set; }
-        public int ToUserId { get; set; }
+        public string Text { get; set; }
+        public string ToUserName { get; set; }
     }
 }

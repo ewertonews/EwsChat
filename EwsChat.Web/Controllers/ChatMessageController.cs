@@ -38,17 +38,18 @@ namespace EwsChat.Web.Controllers
         }
 
         [HttpGet("{roomId}/{lastUpdated}")]
-        public async Task<IActionResult> Get(int roomId, DateTime lastUpdated)
+        public async Task<IActionResult> Get(int roomId, string lastUpdated)
         {
             try
             {
-                var messages = await _messageRepository.GetLatestMessagesFromRoomAsync(roomId, lastUpdated);
+                DateTime dateLasteUpdated = DateTime.Parse(lastUpdated);
+                var messages = await _messageRepository.GetLatestMessagesFromRoomAsync(roomId, dateLasteUpdated);
                 return new OkObjectResult(messages);
-;
+
             }
             catch (RoomNotFoundException rnf)
             {
-                return new BadRequestObjectResult(rnf.Message);            
+                return new BadRequestObjectResult(rnf.Message); 
             }
         }
 

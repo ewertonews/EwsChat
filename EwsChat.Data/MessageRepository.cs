@@ -47,6 +47,10 @@ namespace EwsChat.Data
             {
                 message.MessageId = Guid.NewGuid().ToString();
             }
+            if(message.CreatedAtString != null)
+            {
+                message.CreatedAt = DateTime.Parse(message.CreatedAtString);
+            }           
             _messages.Add(message);
         }
 
@@ -59,7 +63,7 @@ namespace EwsChat.Data
 
             await ValidadeRoom(message.TargetRoomId);
 
-            if (string.IsNullOrEmpty(message.Texto))
+            if (string.IsNullOrEmpty(message.Text))
             {
                 throw new InvalidMessageException("Message text cannot be empty.");
             }
@@ -76,27 +80,30 @@ namespace EwsChat.Data
 
         private async Task InitializeMessages()
         {
-            string welcomeText = "Welcome to EwsChat! We hope uou enjoy it and make some friends!";
+            string welcomeText = "Let's have some nice talks, guys!";
 
             Message welcome1 = new Message()
             {
-                CreatedAt = DateTime.UtcNow,
-                Texto = welcomeText,
-                TargetRoomId = 1001
+                CreatedAt = DateTime.Now,
+                Text = welcomeText,
+                TargetRoomId = 1001,
+                ToUserName = "Everyone"
             };
 
             Message welcome2 = new Message()
             {
-                CreatedAt = DateTime.UtcNow,
-                Texto = welcomeText,
-                TargetRoomId = 1002
+                CreatedAt = DateTime.Now,
+                Text = welcomeText,
+                TargetRoomId = 1002,
+                ToUserName = "Everyone"
             };
 
             Message welcome3 = new Message()
             {
-                CreatedAt = DateTime.UtcNow,
-                Texto = welcomeText,
-                TargetRoomId = 1003
+                CreatedAt = DateTime.Now,
+                Text = welcomeText,
+                TargetRoomId = 1003,
+                ToUserName = "Everyone"
             };
             _ = AddMessageAsync(welcome1);
             _ = AddMessageAsync(welcome2);

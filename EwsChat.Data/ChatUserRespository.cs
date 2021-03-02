@@ -36,6 +36,7 @@ namespace EwsChat.Data
 
         public async Task<IEnumerable<ChatUser>> GetUsersOfRoomAsync(int roomId)
         {
+            //TODO:throw RoomNotFoundException when invalid room;
             return await Task.Run(() => {
                 return chatUsers.Where(u => u.ActiveRoomId == roomId);
             });
@@ -49,6 +50,8 @@ namespace EwsChat.Data
                 return chatUsers;
             });
         }
+
+
 
         public async Task<ChatUser> GetUserByIdAsync(string userId)
         {

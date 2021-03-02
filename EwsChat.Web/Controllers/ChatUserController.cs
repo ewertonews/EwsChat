@@ -25,6 +25,14 @@ namespace EwsChat.Web.Controllers
             return Ok(allUsers);
         }
 
+        [HttpGet("room/{roomId}")]
+        public async Task<IActionResult> Get(int roomId)
+        {
+            //TODO:catch RoomNotFoundException;
+            var usersOfRoom = await _chatUserRepository.GetUsersOfRoomAsync(roomId);
+            return new OkObjectResult(usersOfRoom);
+        }
+
         [HttpGet("{userId}")]
         public async Task<IActionResult> Get(string userId)
         {
@@ -52,6 +60,13 @@ namespace EwsChat.Web.Controllers
             {
                 return new BadRequestObjectResult(uae.Message);
             }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Put(ChatUser user)
+        {
+            await _chatUserRepository.UpdateUserAsync(user);
+            return NoContent();
         }
 
         [HttpDelete("{userId}")]

@@ -26,7 +26,7 @@ namespace EwsChat.Data.Tests
             {
                 TargetRoomId = 1001,
                 MessageId = Guid.NewGuid().ToString(),
-                Texto = "Hello",
+                Text = "Hello",
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -43,7 +43,7 @@ namespace EwsChat.Data.Tests
             var message = new Message
             {
                 TargetRoomId = 1001,
-                Texto = "Hello",
+                Text = "Hello",
                 CreatedAt = DateTime.UtcNow
             };
 
@@ -72,7 +72,7 @@ namespace EwsChat.Data.Tests
             {
                 CreatedAt = DateTime.UtcNow,
                 TargetRoomId = roomId,
-                Texto = emptyMessage
+                Text = emptyMessage
             };
 
             Assert.That(() => _messageRepository.AddMessageAsync(message), Throws.TypeOf<InvalidMessageException>());
@@ -85,7 +85,7 @@ namespace EwsChat.Data.Tests
             {
                 CreatedAt = DateTime.UtcNow,
                 TargetRoomId = idOfNonExistentRoom,
-                Texto = "'sup guys!"
+                Text = "'sup guys!"
             };
 
             Assert.That(() => _messageRepository.AddMessageAsync(message), Throws.TypeOf<RoomNotFoundException>());
@@ -98,7 +98,7 @@ namespace EwsChat.Data.Tests
 
             var allMessages = _messageRepository.GetAllMessagesAsync().Result;
 
-            Assert.That(allMessages.Count, Is.EqualTo(4));
+            Assert.That(allMessages.Count, Is.EqualTo(6));
         }
 
         [Test]
@@ -113,17 +113,7 @@ namespace EwsChat.Data.Tests
             var messagesFromHeavyMetalRoom = _messageRepository.GetAllMessagesFromRoomAsync(heavyMetalRoomId).Result;
 
             Assert.That(messagesFromHeavyMetalRoom.Any(m => m.TargetRoomId != heavyMetalRoomId), Is.False);
-        }
-
-        [Test]
-        public void GetAllMessagesFromRoomShouldReturnEmptyIEnumerable()
-        {
-            var punkRockRoomId = 1001;
-
-            var messagesFromHeavyMetalRoom = _messageRepository.GetAllMessagesFromRoomAsync(punkRockRoomId).Result;
-
-            Assert.That(messagesFromHeavyMetalRoom, Is.Empty);
-        }
+        }       
 
         [Test]
         public void GetAllMessagesFromRoomShouldThrowRoomNotFoundExceptionForNonExistentRoom()
@@ -165,19 +155,19 @@ namespace EwsChat.Data.Tests
             {
                 CreatedAt = DateTime.UtcNow,
                 TargetRoomId = roomId,
-                Texto = "'sup guys!"
+                Text = "'sup guys!"
             };
             var message2 = new Message()
             {
                 CreatedAt = DateTime.UtcNow.AddMinutes(1),
                 TargetRoomId = roomId,
-                Texto = "Heeyy!"
+                Text = "Heeyy!"
             };
             var message3 = new Message()
             {
                 CreatedAt = DateTime.UtcNow.AddMinutes(2),
                 TargetRoomId = roomId,
-                Texto = "What are you guys up to?"
+                Text = "What are you guys up to?"
             };
 
             _messageRepository.AddMessageAsync(message1).Wait();

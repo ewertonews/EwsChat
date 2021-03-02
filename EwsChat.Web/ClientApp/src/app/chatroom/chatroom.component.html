@@ -1,0 +1,23 @@
+<h2 *ngIf="chatRoom">{{chatRoom.name}}</h2>
+<div class="row">
+    <div class="chat col-md-9">
+        <p class="chat-message" *ngFor="let message of messages">
+         <span *ngIf="message.toUserName" class="mention">@{{message.toUserName}}</span>   
+            {{message.text}}
+        </p>
+    </div>
+    <div class="chat col-md-3">
+        <h3>Users in the room:</h3>
+        <ul>
+            <li *ngFor="let cuser of usersOfRoom">{{cuser.nickName}}</li>
+        </ul>
+       <p>To send a message to a user, type @Nickname before the message</p>
+    </div>
+</div>
+<br>
+<div class="form-group">
+    <label for="message">Your message:</label>
+    <textarea class="form-control" id="message" name="message" [(ngModel)]="currentMessage.text" rows="3"></textarea>
+    <br>
+    <button type="button" (click)="sendMessage()" class="btn btn-success">Send</button>
+</div>
