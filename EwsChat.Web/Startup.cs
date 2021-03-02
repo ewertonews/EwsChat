@@ -22,11 +22,15 @@ namespace EwsChat.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            //services.AddSwaggerGen(c =>
-            //{
-            //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "OrderManager", Version = "v1" });
-            //});
-            // In production, the Angular files will be served from this directory
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                {
+                    Title = "Ews Chat",
+                    Version = "v1",
+                    Description = "Simple chat application",
+                });
+            });
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -60,6 +64,7 @@ namespace EwsChat.Web
             }
 
             app.UseRouting();
+            app.UseSwagger();
 
             app.UseEndpoints(endpoints =>
             {
@@ -68,6 +73,8 @@ namespace EwsChat.Web
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
+            app.UseSwagger();
+            app.UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Ews Chat"));
             app.UseSpa(spa =>
             {
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,

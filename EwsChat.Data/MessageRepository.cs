@@ -51,7 +51,7 @@ namespace EwsChat.Data
             {
                 message.CreatedAt = DateTime.Parse(message.CreatedAtString);
             }           
-            _messages.Add(message);
+            _messages?.Add(message);
         }
 
         private async Task ValidateMessage(Message message)
