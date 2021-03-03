@@ -17,6 +17,6 @@ Navigate to EwsChat.Data.Tests or EwsChat.Web.Tests and execute the command ```d
 ## Open API definition
 The JSON file of the Open API Definition can be found here: [EwsChat - API Definition](https://localhost:5001/swagger/v1/swagger.json) (the application needs to be running).
 
-## Extre
+## Extra
 **If you would like to see more of my development style, check this another .Net 5.0 API Here: https://github.com/ewertonews/SimpleOrderManager/tree/master**
 (It was another test and again didn't do all the tests on time (they gave me only 2 days to finish), but I really intend to finish the tests and improve it further)
