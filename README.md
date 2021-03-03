@@ -1,5 +1,5 @@
 # EwsChat
-A Very simple chat service - no special technology like RabbitMQ, Kakka, etc.
+A Very simple chat service - no special technology like SignalR, RabbitMQ, Kakka, etc.
 
 ## Server
 The server is written in .Net Core 3.1 and the communication with it happens through the http protocol. It is a (Pragmatic) RESTful API.
