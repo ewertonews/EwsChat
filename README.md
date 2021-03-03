@@ -6,7 +6,7 @@ The server is written in .Net Core 3.1 and the communication with it happens thr
 Unit tests have been written for the most part of the application but some tests are still to be written (and I will) - tests for some Controllers and Integration Tests.
 
 ## Client
-The client is written using Angular 9 with Bootstrap. Tt is still buggy and needs improvements, but the Idea of a chat can be indentified clearly.
+The client is written using Angular 9 with Bootstrap. It is still buggy and needs improvements, but the Idea of a chat can be indentified clearly.
 
 
 ## Testing
