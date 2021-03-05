@@ -22,50 +22,27 @@ namespace EwsChat.Web.Controllers
             _messageRepository = messageRepository;
         }
 
-        // GET: api/<ChatMessagesController>
         [HttpGet("{roomId}")]
         public async Task<IActionResult> Get(int roomId)
         {
-            try
-            {
-                var messages = await _messageRepository.GetAllMessagesFromRoomAsync(roomId);
-                return new OkObjectResult(messages);
-            }
-            catch (RoomNotFoundException rnf)
-            {
-                return new BadRequestObjectResult(rnf.Message);
-            }
+            var messages = await _messageRepository.GetAllMessagesFromRoomAsync(roomId);
+            return new OkObjectResult(messages);
         }
 
         [HttpGet("{roomId}/{lastUpdated}")]
         public async Task<IActionResult> Get(int roomId, string lastUpdated)
         {
-            try
-            {
-                DateTime dateLasteUpdated = DateTime.Parse(lastUpdated);
-                var messages = await _messageRepository.GetLatestMessagesFromRoomAsync(roomId, dateLasteUpdated);
-                return new OkObjectResult(messages);
-
-            }
-            catch (RoomNotFoundException rnf)
-            {
-                return new BadRequestObjectResult(rnf.Message); 
-            }
+            DateTime dateLasteUpdated = DateTime.Parse(lastUpdated);
+            var messages = await _messageRepository.GetLatestMessagesFromRoomAsync(roomId, dateLasteUpdated);
+            return new OkObjectResult(messages);
         }
 
 
         [HttpPost]
         public  async Task<IActionResult> Post(Message message)
         {
-            try
-            {
-                await _messageRepository.AddMessageAsync(message);
-                return Ok();
-            }
-            catch (Exception ex) when (ex is ArgumentNullException || ex is InvalidMessageException)
-            {
-                return new BadRequestObjectResult(ex.Message);
-            }
+            await _messageRepository.AddMessageAsync(message);
+            return Ok();
         }
 
     }

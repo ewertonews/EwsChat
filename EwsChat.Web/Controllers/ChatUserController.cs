@@ -41,7 +41,7 @@ namespace EwsChat.Web.Controllers
                 var user = await _chatUserRepository.GetUserByIdAsync(userId);
                 return new OkObjectResult(user);
             }
-            catch (NonExistentUserException neu)
+            catch (UserNotFoundException neu)
             {
                 return new NotFoundObjectResult(neu.Message);
             }
@@ -77,7 +77,7 @@ namespace EwsChat.Web.Controllers
                 await _chatUserRepository.RemoveUserAsync(userId);
                 return NoContent();
             }
-            catch (NonExistentUserException neu)
+            catch (UserNotFoundException neu)
             {
                 return new NotFoundObjectResult(neu.Message);
             }

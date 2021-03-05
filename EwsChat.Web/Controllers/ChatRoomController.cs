@@ -29,15 +29,8 @@ namespace EwsChat.Web.Controllers
         [HttpGet("{chatRoomId}")]
         public async Task<IActionResult> Get(int chatRoomId)
         {
-            try
-            {
-                var chatRoom = await _chatRoomRepository.GetChatRoomByIdAsync(chatRoomId);
-                return new OkObjectResult(chatRoom);
-            }
-            catch (RoomNotFoundException rnf)
-            {
-                return new NotFoundObjectResult(rnf.Message);
-            }
+            var chatRoom = await _chatRoomRepository.GetChatRoomByIdAsync(chatRoomId);
+            return new OkObjectResult(chatRoom);
         }
 
         //TODO: Post room

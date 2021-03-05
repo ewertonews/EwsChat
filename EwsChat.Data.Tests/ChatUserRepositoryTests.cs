@@ -69,7 +69,7 @@ namespace EwsChat.Data.Tests
         {
             string idUser = Guid.NewGuid().ToString();
 
-            Assert.That(() => chatUserRespository.GetUserByIdAsync(idUser), Throws.TypeOf<NonExistentUserException>());
+            Assert.That(() => chatUserRespository.GetUserByIdAsync(idUser), Throws.TypeOf<UserNotFoundException>());
         }
 
         [Test]
@@ -141,7 +141,7 @@ namespace EwsChat.Data.Tests
         {
             var userThatWasntAdded = AddTwoUsersAndReturnAnExtraUser();
 
-            Assert.That(() => chatUserRespository.RemoveUserAsync(userThatWasntAdded.UserId), Throws.TypeOf<NonExistentUserException>());
+            Assert.That(() => chatUserRespository.RemoveUserAsync(userThatWasntAdded.UserId), Throws.TypeOf<UserNotFoundException>());
         }
 
         private ChatUser AddTwoUsersAndReturnAnExtraUser()

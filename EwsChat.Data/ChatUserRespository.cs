@@ -62,7 +62,7 @@ namespace EwsChat.Data
 
             if(searchedUser == null)
             {
-                throw new NonExistentUserException("There is no user registered with given user id");
+                throw new UserNotFoundException("There is no user registered with given user id");
             }
 
             return searchedUser;
@@ -82,7 +82,7 @@ namespace EwsChat.Data
 
             if (userToRemove == null)
             {
-                throw new NonExistentUserException("There is no user registered with given user id.");
+                throw new UserNotFoundException("There is no user registered with given user id.");
             }
             chatUsers.Remove(userToRemove);
         }
